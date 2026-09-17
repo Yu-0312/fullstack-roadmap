@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="前後端雙軌全端養成計畫 — 以前置條件與過關條件推進的學習追蹤器，含畢業專案與面試準備軌。">
+<meta name="color-scheme" content="light dark">
+<title>雙軌全端養成計畫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#EDEFEB;
+  --surface:#FFFFFF;
+  --surface-2:#F5F7F2;
+  --ink:#181C19;
+  --ink-2:#4B554D;
+  --muted:#7A847C;
+  --line:#D7DBD3;
+  --line-soft:#E6E9E2;
+  --core:#3E4A63;
+  --core-soft:#E2E6EF;
+  --fe:#0F6A5B;
+  --fe-soft:#DCEBE5;
+  --be:#98492A;
+  --be-soft:#F3E3D9;
+  --cap:#5B4A8C;
+  --cap-soft:#E6E1F1;
+  --int:#983A5F;
+  --int-soft:#F3DEE6;
+  --shadow:0 1px 2px rgba(24,28,25,.05), 0 8px 24px -16px rgba(24,28,25,.35);
+  --radius:10px;
+  --mono:"IBM Plex Mono","SF Mono",ui-monospace,monospace;
+  --display:"Archivo","PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+  --body:"PingFang TC","Noto Sans TC","Microsoft JhengHei",-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#131614;
+    --surface:#1B1F1C;
+    --surface-2:#222723;
+    --ink:#E8EBE6;
+    --ink-2:#B2BAB4;
+    --muted:#828C85;
+    --line:#2F3531;
+    --line-soft:#272C28;
+    --core:#95A6CE;
+    --core-soft:#242B39;
+    --fe:#5CC0AB;
+    --fe-soft:#16302B;
+    --be:#E0946B;
+    --be-soft:#33231A;
+    --cap:#A992E0;
+    --cap-soft:#272040;
+    --int:#E88DAE;
+    --int-soft:#38202B;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#131614;
+  --surface:#1B1F1C;
+  --surface-2:#222723;
+  --ink:#E8EBE6;
+  --ink-2:#B2BAB4;
+  --muted:#828C85;
+  --line:#2F3531;
+  --line-soft:#272C28;
+  --core:#95A6CE;
+  --core-soft:#242B39;
+  --fe:#5CC0AB;
+  --fe-soft:#16302B;
+  --be:#E0946B;
+  --be-soft:#33231A;
+  --cap:#A992E0;
+  --cap-soft:#272040;
+  --int:#E88DAE;
+  --int-soft:#38202B;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:15px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+.wrap:last-of-type{padding-bottom:72px}
+
+/* ── header ─────────────────────────────── */
+header.top{
+  padding:44px 0 4px;
+}
+.eyebrow{
+  font-family:var(--mono);
+  font-size:11.5px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin:0 0 10px;
+}
+h1{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:clamp(28px,4.4vw,44px);
+  line-height:1.12;
+  letter-spacing:-.015em;
+  margin:0 0 12px;
+  text-wrap:balance;
+}
+.lede{
+  margin:0;
+  max-width:62ch;
+  color:var(--ink-2);
+  font-size:15.5px;
+}
+.meter-row{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-end;
+  gap:28px;
+  margin-top:26px;
+}
+.big-pct{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:52px;
+  line-height:.9;
+  letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;
+}
+.big-pct span{font-size:22px;font-weight:600;color:var(--muted)}
+.meter-meta{
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.6;
+}
+.meter-meta b{color:var(--ink-2);font-weight:500}
+.rail{
+  flex:1 1 320px;
+  min-width:240px;
+  height:8px;
+  border-radius:99px;
+  background:var(--line-soft);
+  overflow:hidden;
+  display:flex;
+}
+.rail i{display:block;height:100%;transition:width .35s ease}
+
+/* ── track summary cards ────────────────── */
+.tracks{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  margin:28px 0 0;
+}
+.tcard{
+  background:var(--surface);
+  padding:16px 18px 18px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  text-align:left;
+  border:0;
+  cursor:pointer;
+  font:inherit;
+  color:inherit;
+  transition:background .15s ease;
+}
+.tcard:hover{background:var(--surface-2)}
+.tcard[aria-selected="true"]{background:var(--surface-2)}
+.tcard-top{display:flex;align-items:center;gap:8px}
+.dot{width:9px;height:9px;border-radius:99px;flex:none}
+.tcard h3{
+  font-family:var(--display);
+  font-size:15px;
+  font-weight:600;
+  margin:0;
+  letter-spacing:.01em;
+}
+.tcard .kv{
+  font-family:var(--mono);
+  font-size:11.5px;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  font-variant-numeric:tabular-nums;
+}
+.tbar{height:4px;border-radius:99px;background:var(--line-soft);overflow:hidden}
+.tbar i{display:block;height:100%;transition:width .35s ease}
+
+/* ── sticky nav ─────────────────────────── */
+.navbar{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:var(--ground);
+  background:color-mix(in srgb,var(--ground) 88%,transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  margin-top:32px;
+}
+.navbar-in{
+  max-width:1140px;
+  margin:0 auto;
+  padding:10px 24px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.seg{display:flex;gap:4px;flex-wrap:wrap}
+.seg button{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.02em;
+  padding:6px 12px;
+  border-radius:99px;
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--ink-2);
+  cursor:pointer;
+  transition:background .15s ease,color .15s ease;
+}
+.seg button:hover{background:var(--surface-2)}
+.seg button[aria-current="true"]{
+  background:var(--surface);
+  border-color:var(--line);
+  color:var(--ink);
+  font-weight:600;
+  box-shadow:var(--shadow);
+}
+.navbar .spacer{flex:1}
+.ghost{
+  font-family:var(--mono);
+  font-size:11.5px;
+  color:var(--muted);
+  background:transparent;
+  border:1px solid var(--line);
+  border-radius:99px;
+  padding:5px 11px;
+  cursor:pointer;
+}
+.ghost:hover{color:var(--ink);border-color:var(--ink-2)}
+#syncNote{font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+/* ── layout ─────────────────────────────── */
+.grid{
+  display:grid;
+  grid-template-columns:220px minmax(0,1fr);
+  gap:44px;
+  margin-top:34px;
+  align-items:start;
+}
+@media (max-width:900px){
+  .grid{grid-template-columns:1fr;gap:22px}
+  aside{display:none}
+}
+aside{position:sticky;top:64px}
+.aside-h{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin:0 0 10px;
+}
+.idx{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.idx a{
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  padding:5px 8px;
+  border-radius:6px;
+  text-decoration:none;
+  color:var(--ink-2);
+  font-size:13px;
+  border-left:2px solid transparent;
+}
+.idx a:hover{background:var(--surface-2);color:var(--ink)}
+.idx code{font-family:var(--mono);font-size:11px;color:var(--muted);flex:none;width:38px}
+.idx .pc{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* ── intro block ────────────────────────── */
+.brief{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:20px 22px;
+  margin-bottom:30px;
+  box-shadow:var(--shadow);
+}
+.brief h2{
+  font-family:var(--display);
+  font-size:16px;
+  margin:0 0 10px;
+  font-weight:600;
+}
+.brief p{margin:0 0 10px;color:var(--ink-2);font-size:14px}
+.brief p:last-child{margin-bottom:0}
+.split{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px 26px;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px dashed var(--line);
+}
+.split div{font-size:13.5px;color:var(--ink-2)}
+.split b{
+  display:block;
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-weight:500;
+  margin-bottom:3px;
+}
+
+/* ── phase ──────────────────────────────── */
+.track-head{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  margin:0 0 6px;
+  flex-wrap:wrap;
+}
+.track-head h2{
+  font-family:var(--display);
+  font-size:24px;
+  font-weight:700;
+  letter-spacing:-.01em;
+  margin:0;
+}
+.track-head .tag{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:3px 9px;
+  border-radius:99px;
+}
+.track-sub{margin:0 0 26px;color:var(--ink-2);font-size:14px;max-width:64ch}
+
+.phase{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:0;
+  margin-bottom:14px;
+  overflow:hidden;
+  scroll-margin-top:76px;
+}
+.ph-head{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  padding:16px 20px 12px;
+  border-bottom:1px solid var(--line-soft);
+}
+.code{
+  font-family:var(--mono);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.06em;
+  padding:3px 8px;
+  border-radius:5px;
+  flex:none;
+  margin-top:2px;
+}
+.ph-title{flex:1;min-width:0}
+.ph-title h3{
+  font-family:var(--display);
+  font-size:17px;
+  font-weight:600;
+  margin:0 0 2px;
+  letter-spacing:-.005em;
+}
+.ph-title p{margin:0;color:var(--ink-2);font-size:13.5px}
+.ph-num{
+  flex:none;
+  text-align:right;
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--muted);
+  font-variant-numeric:tabular-nums;
+  line-height:1.5;
+}
+.ph-num strong{display:block;color:var(--ink);font-weight:600;font-size:13px}
+.ph-bar{height:3px;background:var(--line-soft)}
+.ph-bar i{display:block;height:100%;transition:width .3s ease}
+
+ul.items{list-style:none;margin:0;padding:8px 20px 6px}
+ul.items li{margin:0}
+label.item{
+  display:flex;
+  gap:11px;
+  align-items:flex-start;
+  padding:7px 0;
+  cursor:pointer;
+  font-size:14.5px;
+  line-height:1.6;
+  border-bottom:1px solid var(--line-soft);
+}
+ul.items li:last-child label.item{border-bottom:0}
+label.item input{position:absolute;opacity:0;width:0;height:0}
+.box{
+  flex:none;
+  width:17px;height:17px;
+  margin-top:3px;
+  border:1.5px solid var(--line);
+  border-radius:5px;
+  display:grid;
+  place-items:center;
+  transition:background .15s ease,border-color .15s ease;
+}
+.box svg{width:11px;height:11px;opacity:0;transform:scale(.6);transition:opacity .15s ease,transform .15s ease}
+label.item input:checked ~ .box svg{opacity:1;transform:scale(1)}
+label.item input:focus-visible ~ .box{outline:2px solid currentColor;outline-offset:2px}
+label.item input:checked ~ .txt{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:var(--line)}
+.txt{color:var(--ink)}
+
+.ph-foot{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px 24px;
+  padding:14px 20px 18px;
+  background:var(--surface-2);
+  border-top:1px solid var(--line-soft);
+}
+.ph-foot section{font-size:13.5px;color:var(--ink-2)}
+.ph-foot h4{
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-weight:500;
+  margin:0 0 4px;
+}
+.ph-foot a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line)}
+.ph-foot a:hover{border-bottom-color:currentColor}
+.res{display:flex;flex-wrap:wrap;gap:6px}
+.res a{
+  font-family:var(--mono);
+  font-size:11.5px;
+  padding:2px 8px;
+  border:1px solid var(--line);
+  border-radius:99px;
+  border-bottom-width:1px;
+}
+footer.end{
+  margin-top:46px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+  font-family:var(--mono);
+  font-size:11.5px;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow" id="eyebrow">以過關推進，不以週數推進</p>
+    <h1>雙軌全端養成計畫</h1>
+    <p class="lede">這裡沒有日期，只有前置條件與過關條件。每個階段標了它需要先學會什麼，做出產出物、達到過關條件才勾 —— 進度快慢不重要，重要的是每一格都是真的會了。勾選的標準永遠是同一句：不查資料就能講出來。</p>
+    <div class="meter-row">
+      <div>
+        <div class="big-pct" id="bigPct">0<span>%</span></div>
+      </div>
+      <div class="rail" id="bigRail"></div>
+      <div class="meter-meta" id="bigMeta">已完成 <b>0</b> / 0 個學習項目 · 約 <b>0</b> / 632 小時</div>
+    </div>
+    <div class="tracks" id="tracks"></div>
+  </header>
+</div>
+
+<nav class="navbar">
+  <div class="navbar-in">
+    <div class="seg" id="seg"></div>
+    <div class="spacer"></div>
+    <span id="syncNote">本機儲存</span>
+    <button class="ghost" id="resetBtn" type="button">重設進度</button>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="grid">
+    <aside>
+      <p class="aside-h">階段索引</p>
+      <ul class="idx" id="idx"></ul>
+    </aside>
+    <main id="main"></main>
+  </div>
+</div>
+
+<script>
+const PLAN = [
+{
+  id:"core", code:"CORE", name:"共同地基", hue:"core", weeks:"4 個階段 · 40 小時 · 全部先修", hours:40,
+  sub:"兩軌共用的前置作業，四個階段都過關才往下走。這裡不碰框架，只把「電腦怎麼跑、程式碼怎麼管、請求怎麼走」弄清楚 —— 之後所有的除錯速度都靠這裡。",
+  phases:[
+    {id:"C1", title:"命令列與檔案系統", weeks:"前置：無", hours:10,
+     goal:"能不靠圖形介面完成一天的檔案工作，並用 shell 管理自己的檔案與筆記資料夾。",
+     items:["cd / ls / mv / cp / mkdir / rm 與相對絕對路徑","管線與重導向：grep、find、wc、sort、| 與 > 的組合","檔案權限、chmod、擁有者概念","環境變數、PATH、~/.zshrc 與 alias 設定","把一組常用的多步驟操作寫成 shell script（只用前面學過的指令串起來，不需要程式語言基礎）","用 grep + find 在一整個資料夾裡搜出所有含特定關鍵字的檔案"],
+     out:"一份自己的 dotfiles（.zshrc + 3 個常用 alias），和一支能跑的 vault 整理腳本。",
+     check:"能用一行指令回答「哪些筆記三個月沒動過」，不查資料。",
+     res:[["MIT Missing Semester","https://missing.csail.mit.edu/"],["The Linux Command Line","https://linuxcommand.org/tlcl.php"]]},
+    {id:"C2", title:"Git 與 GitHub 版本控制", weeks:"前置：C1", hours:12,
+     goal:"把 Git 當成安全網而不是咒語，能獨立處理分支與衝突。",
+     items:["commit 的三個區域：working tree / staging / repository","branch、merge、rebase 的差別與各自適用時機","解衝突：實際製造一次衝突並手動解掉","reset / revert / stash / reflog 救援四件套","PR 流程：fork、review、squash merge、commit message 規範",".gitignore、大檔處理、把既有專案推上 GitHub"],
+     out:"一個 commit 歷史乾淨、README 完整的 GitHub repo。",
+     check:"誤刪的 commit 能在 5 分鐘內用 reflog 找回來。",
+     res:[["Pro Git（中文）","https://git-scm.com/book/zh-tw/v2"],["GitHub Skills","https://skills.github.com/"]]},
+    {id:"C3", title:"一個網址背後發生的事", weeks:"前置：C1", hours:10,
+     goal:"能完整說出從按 Enter 到畫面出現之間的每一步，這是前後端共用的世界觀。",
+     items:["DNS 解析、TCP 握手、TLS 加密的角色分工","HTTP 請求與回應的結構：method、headers、body、status code","狀態碼語意：2xx/3xx/4xx/5xx 各自代表誰的錯","快取機制：Cache-Control、ETag、瀏覽器快取 vs CDN","瀏覽器渲染流程：parse → style → layout → paint → composite","用 DevTools Network 面板逐一對照上述每一步"],
+     out:"一張自己畫的「請求生命週期」圖，存進自己的筆記系統，並與後續筆記互相連結。",
+     check:"看到 304、401、502 能立刻說出該去哪一層找問題。",
+     res:[["MDN HTTP","https://developer.mozilla.org/zh-TW/docs/Web/HTTP"],["High Performance Browser Networking","https://hpbn.co/"]]},
+    {id:"C4", title:"開發環境與除錯心法", weeks:"前置：C2", hours:8,
+     goal:"建立可重複的除錯流程。這裡先建立方法，實際的中斷點除錯會在 FE3 與 BE1 有程式碼可追時再練。",
+     items:["VS Code：多游標、跳定義、全域搜尋、工作區設定","讀懂錯誤訊息：先看最後一行、再往上找第一行屬於自己的程式碼","最小重現：把 200 行的 bug 縮到 10 行","查文件的順序：官方文件 → issue → Stack Overflow","把每個解掉的 bug 寫成一則筆記（症狀／原因／修法）"],
+     out:"一個「除錯日誌」筆記資料夾，一開始就要累積到 3 則。",
+     check:"下次遇到同類錯誤，先查自己的筆記就能解決。",
+     res:[["VS Code Docs","https://code.visualstudio.com/docs"],["MDN 開發工具","https://developer.mozilla.org/zh-TW/docs/Learn/Common_questions/Tools_and_setup"]]}
+  ]
+},
+{
+  id:"fe", code:"FE", name:"前端軌", hue:"fe", weeks:"9 個階段 · 262 小時", hours:262,
+  sub:"從沒有任何工具的 HTML 開始，一路到框架。順序是刻意的：語言核心（FE3）在框架之前，工具鏈（FE5）在需要安裝套件之前，TypeScript（FE6）在 React 之前 —— 每個階段只會用到前面教過的東西。",
+  phases:[
+    {id:"FE1", title:"HTML 語意與無障礙", weeks:"前置：CORE", hours:18,
+     goal:"寫出關掉 CSS 也讀得懂、螢幕閱讀器也走得通的結構。這階段只需要瀏覽器和編輯器。",
+     items:["語意標籤：header/nav/main/article/section/aside 的實際判準","表單元素、label 綁定、input types、原生驗證屬性","圖片 alt、標題階層 h1–h6、landmark 的正確用法","鍵盤操作：tab 順序、focus 樣式、skip link","ARIA 的第一原則：能用原生就別用 ARIA","Meta 標籤、Open Graph、基本 SEO 結構"],
+     out:"不用任何框架或工具的個人簡介頁（純 HTML，直接用瀏覽器開啟）。",
+     check:"只用鍵盤能走完整頁，且關掉樣式後閱讀順序仍然正確。",
+     res:[["MDN HTML 教學","https://developer.mozilla.org/zh-TW/docs/Learn/HTML"],["ARIA Authoring Practices","https://www.w3.org/WAI/ARIA/apg/"]]},
+    {id:"FE2", title:"CSS 排版與設計系統", weeks:"前置：FE1", hours:32,
+     goal:"能把任何畫面拆成盒子，並用一套 token 統一整站。仍然只需要瀏覽器。",
+     items:["Box model、display、position、堆疊脈絡與 z-index","Flexbox：主軸交軸、grow/shrink/basis 的實際行為","Grid：template-areas、auto-fit/minmax、真正的二維排版","選擇器優先級與 cascade：避免自己的樣式互相抵消","RWD：mobile-first、容器查詢、clamp() 流體排版","CSS 變數建立 token 系統（顏色／間距／字級），並支援深色模式","transition 與 keyframes，以及 prefers-reduced-motion","Tailwind 的 utility 思路：先用 CDN 版本體驗即可，建置工具留到 FE5"],
+     out:"把 FE1 的頁面做成響應式，另外複刻兩個既有網站版型（不看原始碼）。",
+     check:"任何版面問題能在 DevTools 裡 3 分鐘內定位到是哪個屬性造成的。",
+     res:[["web.dev Learn CSS","https://web.dev/learn/css/"],["MDN Grid 指南","https://developer.mozilla.org/zh-TW/docs/Web/CSS/CSS_grid_layout"]]},
+    {id:"FE3", title:"JavaScript 語言核心", weeks:"前置：FE2", hours:48,
+     goal:"整條路線最重的一段，也是最該慢慢走的一段。這裡只寫純邏輯，畫面操作留到 FE4。",
+     items:["型別系統與強制轉換：== vs ===、falsy 值、NaN 的坑","作用域、hoisting、閉包 —— 手寫三個閉包應用（計數器、防抖、模組）","this 的四種綁定、call/apply/bind、箭頭函式的差異","原型鏈與 class：繼承實際上怎麼運作","陣列與物件方法：map/filter/reduce/find、解構、展開、可選鏈","不可變性與純函式：為什麼修改物件前要先複製一份","Event loop：呼叫堆疊、任務佇列、微任務 —— 能預測輸出順序","Promise：建立、鏈接、all/race/allSettled、錯誤傳遞","async/await、try/catch、非同步錯誤處理該放哪一層","ES 模組：import/export 與 type=\"module\"（打包工具在 FE5）","在 DevTools 用中斷點逐步執行自己的程式碼：step、watch、call stack"],
+     out:"一組純邏輯練習：資料轉換函式庫（十個以上純函式＋自己寫的測試斷言），用 script 標籤在瀏覽器裡跑。",
+     check:"能在紙上寫出一段含 setTimeout 與 Promise 的程式碼輸出順序，並解釋原因。",
+     res:[["JavaScript.info","https://javascript.info/"],["You Don\u2019t Know JS Yet","https://github.com/getify/You-Dont-Know-JS"]]},
+    {id:"FE4", title:"瀏覽器、DOM 與資料串接", weeks:"前置：FE3", hours:26,
+     goal:"把 FE3 的邏輯接上畫面與網路 —— 親手做完框架之後會替你做的事。",
+     items:["DOM API：查詢、建立、插入、移除，以及重排重繪的代價","事件流：捕獲、冒泡、委派、preventDefault 與 stopPropagation","表單處理：FormData、自訂驗證、無障礙的錯誤提示","fetch 完整用法：headers、body、AbortController、逾時處理","CORS 到底是誰在擋：預檢請求、憑證、常見錯誤訊息對照","儲存：localStorage / sessionStorage / cookie 的差別與適用情境","用原生 JS 寫一個小型路由 + 畫面渲染機制（約 100 行），理解框架在解什麼問題","DevTools 效能面板：找出卡頓的來源"],
+     out:"一個完整的待辦 App：串接公開 API、有載入／錯誤／空狀態、資料存進 localStorage，全部用原生 JS。",
+     check:"看到 CORS 錯誤，能判斷該改前端還是改後端；能說明你的事件委派為什麼比綁 100 個監聽器好。",
+     res:[["MDN DOM","https://developer.mozilla.org/zh-TW/docs/Web/API/Document_Object_Model"],["MDN CORS","https://developer.mozilla.org/zh-TW/docs/Web/HTTP/CORS"]]},
+    {id:"FE5", title:"Node、npm 與前端建置工具", weeks:"前置：FE4", hours:14,
+     goal:"在安裝第一個套件之前先搞懂工具鏈 —— 之後的 TypeScript、React、測試全部建立在這裡。",
+     items:["Node.js 是什麼：瀏覽器之外的 JavaScript 執行環境；安裝與版本管理","npm 與 package.json：dependencies vs devDependencies、scripts、語意化版號","package-lock.json、node_modules、npx 各自的角色，以及哪些不該進版控","模組系統：ESM 與 CommonJS 的差別，以及打包工具在解什麼問題","用 Vite 建立專案：開發伺服器、熱更新、build 產出","環境變數與 .env，以及前端環境變數為什麼不能放密鑰","把 FE4 的 App 搬進 Vite 專案結構重跑一次"],
+     out:"FE4 的待辦 App 以 Vite 專案重建，npm run dev 與 npm run build 都能正常跑。",
+     check:"能對別人解釋 node_modules、package-lock.json、dist 三者分別是什麼、為什麼只有其中一個要進版控。",
+     res:[["Vite 官方文件","https://vite.dev/guide/"],["npm 文件","https://docs.npmjs.com/"]]},
+    {id:"FE6", title:"TypeScript", weeks:"前置：FE5", hours:26,
+     goal:"讓型別替你檢查。放在 React 之前，是為了之後所有元件都能一開始就用型別寫。",
+     items:["基礎型別、介面與 type alias、聯合與交集","泛型：函式、容器、約束（extends）","型別窄化：typeof、in、判別聯合、型別守衛","utility types：Partial、Pick、Omit、Record、ReturnType","unknown vs any vs never，以及為什麼要禁用 any","tsconfig 重要選項：strict、paths、target、module（接續 FE5 的模組概念）","為 API 回應定義型別，寫一個型別安全的 fetch 包裝"],
+     out:"把 FE5 的 App 全面改寫成 TypeScript，開 strict 模式且零 any。",
+     check:"改動一個 API 欄位名稱，編譯器能指出所有受影響的地方。",
+     res:[["TypeScript Handbook","https://www.typescriptlang.org/docs/handbook/intro.html"],["Type Challenges","https://github.com/type-challenges/type-challenges"]]},
+    {id:"FE7", title:"React", weeks:"前置：FE6", hours:48,
+     goal:"理解狀態驅動畫面的心智模型。你已經有語言核心、DOM 經驗、工具鏈和型別，這時候 React 才會像是解答而不是魔法。",
+     items:["JSX、props、組合勝於繼承：children 與元件拆分原則","useState 與狀態設計：什麼該放 state、什麼是可以算出來的衍生值","useEffect 的真正用途與最常見的四種誤用","受控／非受控元件、表單處理（React Hook Form + Zod 驗證）","useMemo/useCallback/useRef：何時該用、何時是過早最佳化","Context 與狀態管理（Zustand），以及 prop drilling 的取捨","伺服器狀態：TanStack Query 的快取、失效、重新抓取（對照 FE4 手寫的 fetch）","清單與 key、條件渲染、錯誤邊界、Suspense 基礎","React DevTools：找出不必要的重新渲染"],
+     out:"一個有搜尋、篩選、分頁、樂觀更新的資料型 App（TypeScript + TanStack Query）。",
+     check:"能說明某個元件為什麼重新渲染，並用 profiler 驗證你的判斷。",
+     res:[["react.dev 學習區","https://react.dev/learn"],["TanStack Query","https://tanstack.com/query/latest"]]},
+    {id:"FE8", title:"Next.js 與渲染策略", weeks:"前置：FE7", hours:26,
+     goal:"知道每一頁該在哪裡渲染 —— 這需要先懂 React、Node 與 HTTP，三者你都已經有了。",
+     items:["CSR / SSR / SSG / ISR 的差別與選擇標準","App Router：檔案路由、layout、loading、error 慣例","Server Components vs Client Components 的邊界劃分","資料抓取與快取策略、revalidate 的行為","Server Actions 與表單提交","路由處理器（Route Handlers）當作輕量 API","中介層（middleware）與導向、metadata 與 SEO","部署到 Vercel，理解建置產出與環境變數"],
+     out:"把 FE7 的 App 遷移到 Next.js，首屏 LCP < 2.5 秒且可被搜尋引擎正確索引。",
+     check:"能解釋你的每一頁為何選擇該種渲染方式。",
+     res:[["Next.js Learn","https://nextjs.org/learn"],["App Router 文件","https://nextjs.org/docs/app"]]},
+    {id:"FE9", title:"前端工程化、測試與效能", weeks:"前置：FE7", hours:24,
+     goal:"讓程式碼在你不在場時也不會壞掉。建立在 FE5 的工具鏈之上。",
+     items:["打包深入：模組解析、code splitting、tree shaking、bundle 分析","ESLint + Prettier + TypeScript 的專案規範設定","單元測試：Vitest + Testing Library，測行為不測實作","E2E：Playwright 走完一條關鍵使用者流程","GitHub Actions：push 就跑 lint + test + build（接續 CORE 的 Git 流程）","效能：Core Web Vitals、圖片與字體最佳化","無障礙自動化檢查（axe）與手動鍵盤走查（回到 FE1 的標準）"],
+     out:"專案接上 CI，測試覆蓋關鍵路徑，PR 未通過檢查不能合併。",
+     check:"故意寫壞一行程式碼，CI 會在 5 分鐘內擋下來。",
+     res:[["Testing Library","https://testing-library.com/docs/"],["Playwright","https://playwright.dev/"]]}
+  ]
+},
+{
+  id:"be", code:"BE", name:"後端軌", hue:"be", weeks:"9 個階段 · 246 小時", hours:246,
+  sub:"以 Python 為主語言。順序同樣是刻意的：API 先用同步寫法（BE3），資料庫在有 API 可放之後（BE4），Docker 排在佇列之前（BE7 → BE8），因為佇列需要 Redis，而 Redis 用容器跑最乾淨 —— 不會出現「還沒教就先用」。",
+  phases:[
+    {id:"BE1", title:"Python 語言核心", weeks:"前置：CORE", hours:34,
+     goal:"把 Python 當成工程語言寫，而不是腳本。",
+     items:["資料結構：list/dict/set/tuple 的取捨與時間複雜度","函式：預設參數陷阱、*args/**kwargs、first-class function","OOP：class、繼承、dunder 方法、dataclass","模組與套件、虛擬環境（venv）、用 pip 管理依賴","例外處理：自訂例外、finally、context manager（with）","typing：型別註記、Optional、泛型、mypy 檢查","迭代器、產生器、comprehension 與惰性求值","用 debugger（pdb 或編輯器中斷點）逐步執行、觀察變數 —— 補上 CORE 沒有程式碼可練的部分","argparse 寫命令列介面（接續 CORE 的 shell 經驗）","pytest 入門：測試函式、fixture、參數化測試"],
+     out:"一個有型別註記、有測試、能用 pip 安裝的命令列小工具。",
+     check:"mypy 與 pytest 全綠，且能說明每個 class 為什麼是 class。",
+     res:[["Python 官方教學","https://docs.python.org/zh-tw/3/tutorial/"],["Real Python","https://realpython.com/"]]},
+    {id:"BE2", title:"資料結構與演算法", weeks:"前置：BE1", hours:32,
+     goal:"不是為了刷題，是為了讓你在寫 API 時知道哪一行會變慢。用 BE1 的 Python 寫。",
+     items:["時間與空間複雜度：Big-O 的實際估算練習","陣列與雜湊表：兩數之和類型、去重、計數","堆疊與佇列：括號匹配、BFS 的基礎","鏈結串列、雙指標、滑動視窗","樹與二元搜尋樹：走訪、遞迴思維","圖：BFS/DFS、最短路徑的直覺","排序與二分搜尋：手寫一次，理解穩定性","建立節奏：少量但不間斷，寫下解法思路而不是背答案"],
+     out:"一份依題型分類的演算法筆記，每型 3 題＋自己的解題模板。",
+     check:"看到新題目能先說出「這是哪一類、複雜度大概多少」再動手。",
+     res:[["NeetCode 練習路線","https://neetcode.io/practice"],["Grokking Algorithms","https://www.manning.com/books/grokking-algorithms"]]},
+    {id:"BE3", title:"HTTP API 設計與 FastAPI", weeks:"前置：BE1", hours:28,
+     goal:"設計出別人不用問你就會用的 API。這裡全部用同步端點，非同步留到 BE8。",
+     items:["REST 資源設計：命名、巢狀、動詞的正確歸屬（接續 CORE 的 HTTP 基礎）","冪等性、狀態碼選擇、錯誤回應格式的一致性","分頁、排序、篩選的參數設計；版本策略","FastAPI：路由、相依注入、同步端點（async 語法在 BE8 補上）","Pydantic：請求驗證、回應模型、自訂驗證器","OpenAPI 文件自動產生，並用它跟前端對齊型別","設定管理、日誌、專案結構分層（router／service／repository）","先用記憶體或 JSON 檔當資料層，資料庫在 BE4 才接"],
+     out:"一個有完整 OpenAPI 文件、輸入驗證與錯誤處理的 CRUD API（資料先存在記憶體）。",
+     check:"前端不看你的程式碼、只看 /docs 就能完成串接。",
+     res:[["FastAPI 官方文件","https://fastapi.tiangolo.com/"],["MDN HTTP 方法","https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Methods"]]},
+    {id:"BE4", title:"關聯式資料庫與 SQL", weeks:"前置：BE3", hours:40,
+     goal:"後端最關鍵的一段。把 BE3 的記憶體資料層換成真的資料庫。",
+     items:["先裝好 PostgreSQL：本機安裝或用雲端免費實例（容器化的做法在 BE7）","關聯模型與正規化：1NF 到 3NF，以及何時該刻意反正規化","SQL 查詢：JOIN 五種、GROUP BY、子查詢、CTE、視窗函式","索引：B-tree 怎麼運作、複合索引順序、什麼查詢用不到索引","EXPLAIN ANALYZE：讀懂查詢計畫，實際優化一支慢查詢","交易與 ACID、隔離層級、死鎖的成因","PostgreSQL 實務：型別選擇、JSONB、全文檢索","SQLAlchemy ORM：關聯定義、lazy/eager loading、N+1 問題","Alembic migration：新增欄位、資料遷移、回滾"],
+     out:"把 BE3 的 API 接上真的資料庫，含完整 schema、migration 與種子資料。",
+     check:"能把一支 800ms 的查詢優化到 50ms，並說明是哪個索引起作用。",
+     res:[["PostgreSQL Tutorial","https://www.postgresqltutorial.com/"],["Use The Index, Luke","https://use-the-index-luke.com/"]]},
+    {id:"BE5", title:"認證、授權與 Web 安全", weeks:"前置：BE4", hours:24,
+     goal:"在做出使用者系統之前，先知道自己會被怎麼打。需要先有資料庫存使用者。",
+     items:["認證 vs 授權：session cookie 與 JWT 的取捨","密碼儲存：bcrypt/argon2、加鹽、絕不可逆","OAuth 2.0 授權碼流程：第三方登入實際走一遍","權限模型：角色與資源層級的檢查該放哪一層","OWASP Top 10：SQL injection、XSS、CSRF 各自的防法","CORS 與安全標頭：從後端這一側看 FE4 遇到的那些錯誤","速率限制、暴力破解防護、機密管理（環境變數與 secrets）"],
+     out:"完整的註冊／登入／權限系統，含密碼重設流程。",
+     check:"能對自己的 API 做一次基本滲透檢查清單，並說明每項防護擋的是什麼。",
+     res:[["OWASP Top 10","https://owasp.org/www-project-top-ten/"],["OWASP Cheat Sheets","https://cheatsheetseries.owasp.org/"]]},
+    {id:"BE6", title:"Linux、作業系統與網路", weeks:"前置：CORE", hours:20,
+     goal:"讓「伺服器上出事」不再是黑箱。這是容器與部署的前置知識。",
+     items:["程序與執行緒、記憶體配置、檔案描述符","Linux 檔案系統結構、使用者與權限、systemd 服務","檢視系統狀態：ps、top、df、netstat/ss、journalctl","網路分層：IP、TCP、DNS、TLS 憑證實際運作（接續 CORE 的請求生命週期）","SSH：金鑰登入、port forwarding、遠端操作伺服器","日誌設計：結構化日誌、等級、輪替"],
+     out:"在一台雲端主機（或本機 VM）上手動架起一個服務，不用任何 PaaS。",
+     check:"服務掛掉時，能靠日誌與系統指令在 10 分鐘內定位原因。",
+     res:[["Linux Journey","https://linuxjourney.com/"],["Missing Semester","https://missing.csail.mit.edu/"]]},
+    {id:"BE7", title:"Docker、CI/CD 與部署維運", weeks:"前置：BE5 · BE6", hours:26,
+     goal:"排在佇列之前，因為之後的 Redis、訊息佇列都用容器跑最乾淨。",
+     items:["容器概念：映像檔、層、容器與 VM 的差別（建立在 BE6 的程序與檔案系統上）","Dockerfile：多階段建置、快取層順序、映像檔瘦身","docker compose：一鍵起 API + PostgreSQL + Redis（BE8 會用到這個 Redis）","環境變數與設定分離、secrets 不進版控","GitHub Actions：測試、建置映像檔、自動部署","部署到雲端（Railway / Fly.io / AWS 基礎），設定網域與 HTTPS","監控與告警：健康檢查、錯誤追蹤、資料庫備份"],
+     out:"一行 docker compose up 就能跑起完整開發環境，且 main 分支自動部署。",
+     check:"新電腦 clone 專案後，15 分鐘內能跑起完整服務。",
+     res:[["Docker 入門","https://docs.docker.com/get-started/"],["GitHub Actions","https://docs.github.com/actions"]]},
+    {id:"BE8", title:"非同步、佇列與串流", weeks:"前置：BE7", hours:20,
+     goal:"處理那些「不能讓使用者等」的工作。現在你有容器可以跑 Redis，也有 API 可以改成非同步。",
+     items:["I/O bound vs CPU bound：什麼時候 async 沒有幫助","Python asyncio：事件迴圈、async def、gather、常見阻塞陷阱（對照 FE3 學過的 event loop）","把 BE3 的同步端點改寫成 async，並量測差異","Redis 入門：快取策略、失效時機、什麼不該快取","任務佇列（Celery / RQ）：用 BE7 的 compose 起 broker，跑背景工作","排程任務與重試策略、冪等的背景工作設計","Webhook：接收、驗簽、重送處理","SSE 串流回應：把逐字產生的內容即時送到前端"],
+     out:"一個非同步流程：請求立刻回應，工作在背景完成後前端即時更新。",
+     check:"服務重啟後，未完成的任務不會遺失。",
+     res:[["Real Python asyncio","https://realpython.com/async-io-python/"],["Celery 文件","https://docs.celeryq.dev/"]]},
+    {id:"BE9", title:"Node.js／TypeScript 後端對照", weeks:"前置：BE8 · FE6", hours:22,
+     goal:"用第二種語言重寫同一件事，你才會知道哪些是概念、哪些只是語法。TypeScript 與 npm 都已經在前端軌學過了。",
+     items:["Node 執行模型：單執行緒事件迴圈與 Python 的差異","Hono / Express：路由、中介層、錯誤處理","Prisma：schema 定義、migration、型別安全查詢（對照 BE4 的 SQLAlchemy）","前後端共用型別：monorepo 或共用套件的做法","Node 的非同步生態：streams、worker threads","把 BE3 的 CRUD API 用 TypeScript 重寫一次，逐項對照"],
+     out:"同一組 API 的 Python 版與 TypeScript 版，附一篇比較筆記。",
+     check:"能說出面對一個新專案時，你會依什麼理由選 Python 或 Node。",
+     res:[["Hono 文件","https://hono.dev/"],["Prisma 文件","https://www.prisma.io/docs"]]}
+  ]
+},
+{
+  id:"cap", code:"CAP", name:"畢業專案", hue:"cap", weeks:"5 個里程碑 · 100 小時", hours:100,
+  sub:"選一個你自己真的會用的產品來做 —— 有使用者、有資料、有一個外部服務要串。當前端走到 FE6（TypeScript）、後端走到 BE4（資料庫）就可以開工，之後滾動推進：學到什麼就立刻用上。這是唯一能證明你「真的會了」的東西，也是兩條軌會合的地方。",
+  phases:[
+    {id:"M1", title:"規格與資料模型", weeks:"前置：BE4 · FE6", hours:12,
+     goal:"先想清楚再寫程式 —— 這是實習面試最看重的一段。",
+     items:["寫一頁規格：問題、目標使用者、核心流程、明確的非目標","畫使用者流程圖與主要畫面線稿","設計資料模型：實體、關聯、狀態欄位，以及每個查詢怎麼走","定義 API 契約（OpenAPI 草稿）並與前端型別對齊","選型決策記錄：為什麼是這個資料庫／框架／部署方式","切出可交付的里程碑，每個都要能單獨展示"],
+     out:"一份 README 等級的技術規格 + ER 圖 + API 契約。",
+     check:"別人只讀規格就能理解這個產品要解什麼問題。",
+     res:[["System Design Primer","https://github.com/donnemartin/system-design-primer"]]},
+    {id:"M2", title:"後端 API 與資料庫", weeks:"前置：M1 · BE5", hours:20,
+     goal:"把 BE3–BE5 學到的東西一次落地。",
+     items:["建立專案結構、設定管理、資料庫連線與 migration","使用者認證與權限（沿用 BE5 的實作）","核心資源的 CRUD、檔案上傳與解析","外部資料匯入 pipeline（第三方 API 或爬取）","查詢與篩選端點，含分頁與索引最佳化","API 測試：關鍵路徑的整合測試"],
+     out:"可用 /docs 完整操作的後端服務，測試覆蓋主要流程。",
+     check:"上千筆資料的篩選查詢在 200ms 內回應。",
+     res:[]},
+    {id:"M3", title:"前端介面與狀態", weeks:"前置：M2 · FE7", hours:16,
+     goal:"把 FE7–FE8 的成果變成真的能用的產品介面。",
+     items:["設計 token 與元件庫：按鈕、表單、卡片、空狀態","主要編輯畫面：表單驗證、自動儲存、錯誤提示","結果列表：篩選、排序、載入中與空狀態處理","伺服器狀態管理與樂觀更新","響應式與無障礙走查（鍵盤 + Lighthouse）","渲染策略選擇與 SEO 設定"],
+     out:"能在手機與桌機都順暢完成一次完整流程的前端。",
+     check:"找一個沒看過的人試用，不用你解釋就能走完主要流程。",
+     res:[]},
+    {id:"M4", title:"AI 功能與背景任務", weeks:"前置：M2 · BE8", hours:8,
+     goal:"這是你的差異化 —— 但要用工程的方式做，不是包一層 prompt。",
+     items:["功能設計：哪一部分該用規則寫死、哪一部分才交給模型","呼叫 LLM API：逾時、重試、成本控制、輸出結構化","把分析放進背景佇列，前端以串流或輪詢顯示進度","評估品質：準備 20 筆人工標註樣本當回歸測試","失敗降級：模型出錯時仍給出可用結果"],
+     out:"可解釋的模型輸出（不只給結果，還說明理由）。",
+     check:"模型 API 掛掉時，網站仍然可用。",
+     res:[]},
+    {id:"M5", title:"部署、監控與作品集呈現", weeks:"前置：M3 · BE7", hours:44,
+     goal:"收尾衝刺：讓它上線、被人用、被人看見。",
+     items:["容器化與 CI/CD 上線，設定自訂網域與 HTTPS","錯誤追蹤、日誌與基本分析，資料庫自動備份","效能檢查：Core Web Vitals 與 API 延遲","寫 README：問題、架構圖、技術決策、取捨與已知限制","錄一支 2 分鐘 demo 影片，寫一篇技術文章","把專案寫進中英文履歷，用數字描述成果"],
+     out:"線上可訪問的產品 + GitHub repo + demo 影片 + 一篇技術文章。",
+     check:"能在 5 分鐘內對一位工程師講完架構與你做過的取捨。",
+     res:[]}
+  ]
+},
+{
+  id:"int", code:"INT", name:"面試軌", hue:"int", weeks:"6 個階段 · 156 小時 · 中英並行", hours:156,
+  sub:"不要等技術學完才開始 —— 演算法基礎（BE2）一過關就啟動刷題，之後跟學習同步跑。面試能力是複利，臨時抱佛腳沒有用。中英並行的意思是：同一個答案先用中文講順，再用英文講到不需要在腦中翻譯。",
+  phases:[
+    {id:"INT1", title:"刷題引擎：長期節奏", weeks:"前置：BE2 · 長期持續", hours:48,
+     goal:"不是刷完 500 題，是讓每一題都變成可複用的模式。",
+     items:["依題型走完 NeetCode 150：陣列／雜湊、雙指標、滑動視窗、堆疊、二分、樹、圖、動態規劃","每題寫三行筆記：屬於哪個模式、複雜度、我卡在哪 —— 存進筆記系統，並依題型互相連結","錯題重做週期：第 1 天、第 7 天、第 30 天各重寫一次","限時訓練：medium 25 分鐘內寫出可執行解","在純文字編輯器（無自動補全、無執行）寫題，模擬白板環境","邊寫邊講：全程用英文口述你的思路，錄下來自己聽","定期完整模擬：90 分鐘 3 題，事後複盤","目標線：medium 穩定 25 分鐘、hard 能在 10 分鐘內講出正確方向"],
+     out:"一份分類完整的題型筆記，每個模式有自己的解題模板。",
+     check:"隨機抽一題沒做過的 medium，能先說出「這是哪一類、為什麼」再動手，且 25 分鐘內完成。",
+     res:[["NeetCode 練習路線","https://neetcode.io/practice"],["LeetCode","https://leetcode.com/studyplan/"]]},
+    {id:"INT2", title:"專案敘事：把作品變成故事", weeks:"前置：M1", hours:14,
+     goal:"面試官不會讀你的程式碼，只會聽你怎麼講它。",
+     items:["用 STAR 結構寫出畢業專案的完整敘事：情境、任務、行動、結果","準備三種長度：2 分鐘電梯版、5 分鐘標準版、15 分鐘深挖版","把技術決策寫成取捨：為什麼選 PostgreSQL 不選 MongoDB、為什麼不用 X","結果指標化：查詢從 800ms 到 50ms、使用者完成率、資料量級","預想 20 個追問並寫下答案（「如果流量放大 100 倍呢？」「這裡的瓶頸在哪？」）","Demo 腳本與備援方案：網路掛掉、API 超時時你怎麼繼續講","中英兩版都寫，英文版不是翻譯，是重寫成英文語感","其他做過的專案或競賽也整理成同一格式，讓每一段經歷都能隨時開口"],
+     out:"一份中英對照的專案敘事文件，含 20 題追問的預備答案。",
+     check:"被打斷追問後還能回到主線，不會亂掉。",
+     res:[]},
+    {id:"INT3", title:"系統設計", weeks:"前置：BE4 · BE8", hours:20,
+     goal:"從「會寫功能」升級到「能設計系統」—— 這是實習生跟一般求職者的分水嶺。",
+     items:["標準流程：釐清需求 → 估算規模 → 定 API → 資料模型 → 擴展 → 取捨","容量估算練習：QPS、儲存量、頻寬的快速心算","核心元件：快取、佇列、負載平衡、CDN、讀寫分離、分片","一致性與可用性：什麼情境可以接受最終一致","經典題各做一次：短網址、動態牆、聊天室、通知系統","拿自己的畢業專案當案例：如果使用量放大 1000 倍會怎麼改","白板練習：45 分鐘內畫完並講完一題","同一題用英文再講一次"],
+     out:"六題系統設計的手繪圖與講稿，含每題的取捨說明。",
+     check:"面對沒準備過的題目，能靠流程走完而不是靠背過。",
+     res:[["System Design Primer","https://github.com/donnemartin/system-design-primer"]]},
+    {id:"INT4", title:"語言與框架深問", weeks:"前置：FE7 · BE5", hours:16,
+     goal:"把整條路線學過的東西，壓縮成能立刻開口的答案。",
+     items:["前端高頻：event loop 輸出順序、閉包、React 為什麼重新渲染、虛擬 DOM 的真實作用、TypeScript 泛型、CSS 排版與 z-index、瀏覽器快取","後端高頻：索引為什麼失效、交易隔離層級、N+1 怎麼發生、JWT vs session、冪等性、連線池、非同步與多執行緒的差別","每題準備兩種長度：30 秒版（先給結論）與 2 分鐘版（展開原理）","做一份中英術語對照表：把 closure、idempotent、eventual consistency 這類詞用中英各講一次","誠實話術：不會的題目怎麼答才加分（說出你會怎麼查、怎麼推理）","準備要反問面試官的 8 個問題（技術棧、code review 文化、實習生如何被帶）"],
+     out:"一份 60 題的中英雙語問答卡（可做成隨機抽考的卡片）。",
+     check:"隨機抽 10 題，能不看筆記在 30 秒內開口回答。",
+     res:[]},
+    {id:"INT5", title:"英文表達與行為面試", weeks:"前置：INT2", hours:18,
+     goal:"技術懂了，但講不出來等於零 —— 尤其是英文面試。",
+     items:["90 秒英文自我介紹：寫稿、精修、練到不像背的","用英文講 INT4 的 20 題技術答案，錄影並自評（語速、填充詞、結構）","行為面試 12 題 STAR：領導、衝突、失敗、學習曲線 —— 素材從自己帶過的團隊、辦過的活動、做過的專案裡找","「為什麼是我們公司」「為什麼從原本的科系／領域轉來寫程式」的誠實版答案","跨領域敘事：把原本的專業講成優勢，而不是需要解釋的缺口","找搭檔或用 Pramp 做真人模擬面試，固定安排、不要只練一次","技術詞彙發音與常見句型：clarifying question、thinking aloud、trade-off 的說法"],
+     out:"錄影存檔的英文自我介紹＋3 場模擬面試回放與改進清單。",
+     check:"英文講一題技術問題，全程不需要在腦中先翻譯。",
+     res:[["Pramp 模擬面試","https://www.pramp.com/"]]},
+    {id:"INT6", title:"投遞衝刺與實戰複盤", weeks:"前置：INT1–INT5", hours:40,
+     goal:"把準備好的東西送出去，並在真實面試中迭代 —— 真實面試是最快的學習回饋。",
+     items:["中英履歷各一版（.docx，一頁），每個經歷都用數字結果收尾","作品集網站上線，首頁三秒內看得到你做過什麼","GitHub 整理：釘選三個專案、每個 README 有架構圖與 demo 連結；LinkedIn 中英同步","建立職缺追蹤表：公司、投遞日、聯絡人、進度、複盤","持續安排模擬面試（技術與行為各一種，至少一場全英文）","面試後 24 小時內寫複盤：問了什麼、我答得如何、下次怎麼改","感謝信範本與跟進節奏；offer 比較與談判的基本認識","不必等全部過關才投：專案上線（M5）＋刷題到目標線（INT1）就可以開始，剩下的邊面試邊補"],
+     out:"可投遞的中英履歷＋作品集網站＋職缺追蹤表，並實際完成 10 場以上模擬或真實面試。",
+     check:"能在沒有準備的情況下接一通面試電話，撐完 30 分鐘技術問答。",
+     res:[]}
+  ]
+}
+];
+
+/* ── state ─────────────────────────────── */
+const KEY = "fullstack-tracker-v1";
+let done = {};
+let dbRef = null;
+let view = "core";
+
+const ITEM_IDS = [];
+PLAN.forEach(t => t.phases.forEach(p => p.items.forEach((_,i) => ITEM_IDS.push(p.id + "-" + i))));
+const TOTAL_ITEMS = ITEM_IDS.length;
+const TOTAL_HOURS = PLAN.reduce((s,t) => s + t.hours, 0);
+const TOTAL_PHASES = PLAN.reduce((s,t) => s + t.phases.length, 0);
+document.getElementById("eyebrow").textContent =
+  PLAN.length + " 條軌 · " + TOTAL_PHASES + " 個階段 · " + ITEM_IDS.length + " 個能力點 · 以過關推進，不以週數推進";
+
+try { const raw = localStorage.getItem(KEY); if (raw) done = JSON.parse(raw) || {}; } catch (e) {}
+
+function persist(){
+  try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {}
+  if (dbRef) dbRef.set({ done: done, updatedAt: new Date().toISOString() }).catch(() => {});
+}
+
+/* ── helpers ───────────────────────────── */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const phaseDone = p => p.items.reduce((n,_,i) => n + (done[p.id+"-"+i] ? 1 : 0), 0);
+function trackStats(t){
+  let di = 0, ti = 0, dh = 0;
+  t.phases.forEach(p => {
+    const d = phaseDone(p);
+    di += d; ti += p.items.length;
+    dh += p.hours * (d / p.items.length);
+  });
+  return { di, ti, dh, pct: ti ? Math.round(di/ti*100) : 0 };
+}
+
+/* ── render: static shells ─────────────── */
+document.getElementById("seg").innerHTML = PLAN.map(t =>
+  `<button type="button" data-view="${t.id}" aria-current="${t.id===view}">${esc(t.name)}</button>`
+).join("");
+
+document.getElementById("tracks").innerHTML = PLAN.map(t => `
+  <button class="tcard" type="button" data-view="${t.id}" aria-selected="${t.id===view}">
+    <span class="tcard-top"><span class="dot" style="background:var(--${t.hue})"></span>
+      <h3>${esc(t.name)}</h3></span>
+    <span class="kv"><span>${esc(t.weeks.split(" · ")[0])}</span><span>${t.hours} 小時</span></span>
+    <span class="tbar"><i data-bar="${t.id}" style="background:var(--${t.hue});width:0%"></i></span>
+    <span class="kv"><span data-count="${t.id}">0 / 0 項</span><span data-pct="${t.id}">0%</span></span>
+  </button>`).join("");
+
+document.getElementById("bigRail").innerHTML = PLAN.map(t =>
+  `<i data-rail="${t.id}" style="background:var(--${t.hue});width:0%"></i>`).join("");
+
+const CHECK = '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 6.4 4.3 9.2 10.5 2.8"/></svg>';
+
+function phaseHTML(p, hue){
+  const d = phaseDone(p), n = p.items.length, pct = Math.round(d/n*100);
+  return `<article class="phase" id="${p.id}">
+    <div class="ph-head">
+      <span class="code" style="background:var(--${hue}-soft);color:var(--${hue})">${p.id}</span>
+      <div class="ph-title"><h3>${esc(p.title)}</h3><p>${esc(p.goal)}</p></div>
+      <div class="ph-num"><strong data-phnum="${p.id}">${d}/${n}</strong>${esc(p.weeks)} · ${p.hours}h</div>
+    </div>
+    <div class="ph-bar"><i data-phbar="${p.id}" style="background:var(--${hue});width:${pct}%"></i></div>
+    <ul class="items">${p.items.map((it,i) => {
+      const id = p.id + "-" + i;
+      return `<li><label class="item"><input type="checkbox" data-id="${id}" ${done[id]?"checked":""}>
+        <span class="box" style="color:var(--${hue});${done[id]?`background:var(--${hue}-soft);border-color:var(--${hue})`:""}">${CHECK}</span>
+        <span class="txt">${esc(it)}</span></label></li>`;
+    }).join("")}</ul>
+    <div class="ph-foot">
+      <section><h4>產出物</h4>${esc(p.out)}</section>
+      <section><h4>過關條件</h4>${esc(p.check)}</section>
+      ${p.res.length ? `<section><h4>資源</h4><span class="res">${p.res.map(r =>
+        `<a href="${esc(r[1])}" target="_blank" rel="noopener">${esc(r[0])}</a>`).join("")}</span></section>` : ""}
+    </div>
+  </article>`;
+}
+
+const BRIEF = `<div class="brief">
+  <h2>怎麼用這份計畫</h2>
+  <p>每張卡上的「前置」告訴你它需要先學會什麼，「過關條件」告訴你什麼時候可以往下走。照著前置走就不會遇到看不懂的東西；沒過關就不要勾，也不要往下跳 —— 底層沒補起來，上層學到的都會是背的。</p>\n  <p style="padding:10px 12px;background:var(--surface-2);border-radius:8px;border-left:2px solid var(--core)"><b>這份計畫的規則：任何一張卡片裡出現的工具或概念，一定在它的前置階段裡教過。</b>所以 HTML／CSS 階段完全不需要安裝任何東西，JavaScript 只寫純邏輯、畫面操作留到下一階段，套件與建置工具（Node、npm、Vite）在需要安裝第一個套件之前才登場，後端的 API 先用同步寫法、容器排在訊息佇列之前。如果你發現某張卡用到了前面沒教過的東西，那是這份計畫的 bug，不是你的問題。</p>
+  <div class="split">
+    <div><b>一個階段的四步</b>讀最少的必要文件 → 立刻動手做產出物 → 講給別人（或請 Claude 抽考）→ 隔幾天不看筆記重做關鍵部分</div>
+    <div><b>兩軌怎麼並行</b>前端與後端交錯著走，因為它們互相解釋。想一次專心一條也可以，但不要整條學完才碰另一條</div>
+    <div><b>卡住的處理</b>先自己撞 20 分鐘 → 查官方文件 → 才問人或 AI；問完一定要關掉答案自己重寫一次</div>
+    <div><b>永遠不要跳過</b>產出物。看完影片、跟著打完一次教學程式碼，都還不算學會</div>
+  </div>
+  <p style="margin-top:14px"><b>「熟練」的三個層次</b>，每個項目都要走到第三層才算勾完：查著文件寫得出來 → 不查文件寫得出來 → 能對別人解釋為什麼這樣做、以及還有哪些選項。面試考的永遠是第三層，而第三層只有靠「講出來」才練得到。</p>
+  <p style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)"><b>會忘記是正常的</b>，所以計畫裡放了三種回頭機制：刷題的錯題在第 1、7、30 天各重做一次；每個階段的產出物在下個階段結束時回頭改一版；學過的東西全部要在畢業專案裡真的用上一次。用過三遍的東西，面試時才叫得出來。</p>
+</div>`;
+
+function render(){
+  const t = PLAN.find(x => x.id === view);
+  document.getElementById("main").innerHTML =
+    `<div class="track-head"><h2>${esc(t.name)}</h2>
+      <span class="tag" style="background:var(--${t.hue}-soft);color:var(--${t.hue})">${esc(t.weeks)}</span></div>
+     <p class="track-sub">${esc(t.sub)}</p>
+     ${view === "core" ? BRIEF : ""}
+     ${t.phases.map(p => phaseHTML(p, t.hue)).join("")}`;
+
+  document.getElementById("idx").innerHTML = t.phases.map(p => {
+    const d = phaseDone(p), n = p.items.length;
+    return `<a href="#${p.id}"><code>${p.id}</code><span>${esc(p.title)}</span><span class="pc">${d}/${n}</span></a>`;
+  }).join("");
+
+  document.querySelectorAll("[data-view]").forEach(b => {
+    const on = b.dataset.view === view;
+    if (b.hasAttribute("aria-current")) b.setAttribute("aria-current", on);
+    if (b.hasAttribute("aria-selected")) b.setAttribute("aria-selected", on);
+  });
+  updateNumbers();
+}
+
+function updateNumbers(){
+  let di = 0, dh = 0;
+  PLAN.forEach(t => {
+    const s = trackStats(t);
+    di += s.di; dh += s.dh;
+    const bar = document.querySelector(`[data-bar="${t.id}"]`);
+    if (bar) bar.style.width = s.pct + "%";
+    const rail = document.querySelector(`[data-rail="${t.id}"]`);
+    if (rail) rail.style.width = (s.di / TOTAL_ITEMS * 100) + "%";
+    const c = document.querySelector(`[data-count="${t.id}"]`);
+    if (c) c.textContent = s.di + " / " + s.ti + " 項";
+    const pc = document.querySelector(`[data-pct="${t.id}"]`);
+    if (pc) pc.textContent = s.pct + "%";
+  });
+  document.getElementById("bigPct").innerHTML = Math.round(di/TOTAL_ITEMS*100) + "<span>%</span>";
+  document.getElementById("bigMeta").innerHTML =
+    `已完成 <b>${di}</b> / ${TOTAL_ITEMS} 個學習項目 · 約 <b>${Math.round(dh)}</b> / ${TOTAL_HOURS} 小時`;
+}
+
+/* ── events ────────────────────────────── */
+document.addEventListener("click", e => {
+  const nav = e.target.closest("[data-view]");
+  if (nav){ view = nav.dataset.view; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+});
+
+document.addEventListener("change", e => {
+  const cb = e.target.closest("input[data-id]");
+  if (!cb) return;
+  const id = cb.dataset.id;
+  if (cb.checked) done[id] = true; else delete done[id];
+  const t = PLAN.find(x => x.id === view);
+  const box = cb.parentElement.querySelector(".box");
+  box.style.background = cb.checked ? `var(--${t.hue}-soft)` : "";
+  box.style.borderColor = cb.checked ? `var(--${t.hue})` : "";
+  const p = t.phases.find(p => id.startsWith(p.id + "-"));
+  if (p){
+    const d = phaseDone(p), n = p.items.length;
+    const num = document.querySelector(`[data-phnum="${p.id}"]`);
+    if (num) num.textContent = d + "/" + n;
+    const pb = document.querySelector(`[data-phbar="${p.id}"]`);
+    if (pb) pb.style.width = Math.round(d/n*100) + "%";
+    const link = document.querySelector(`#idx a[href="#${p.id}"] .pc`);
+    if (link) link.textContent = d + "/" + n;
+  }
+  updateNumbers();
+  persist();
+});
+
+let armed = false;
+const resetBtn = document.getElementById("resetBtn");
+resetBtn.addEventListener("click", () => {
+  if (!armed){
+    armed = true;
+    resetBtn.textContent = "確定清除全部？";
+    setTimeout(() => { armed = false; resetBtn.textContent = "重設進度"; }, 4000);
+    return;
+  }
+  done = {}; armed = false; resetBtn.textContent = "重設進度";
+  persist(); render();
+});
+
+render();
+
+/* ── sync ──────────────────────────────── */
+(async () => {
+  if (!window.claude || !window.claude.use) return;
+  let db;
+  try { db = await window.claude.use("db"); } catch (e) { return; }
+  if (!db) return;
+  const note = document.getElementById("syncNote");
+  try {
+    const ref = db.doc("progress/main");
+    const snap = await ref.get();
+    if (snap.exists){
+      const remote = snap.data().done;
+      if (remote && typeof remote === "object"){
+        done = Object.assign({}, remote, done);
+      }
+    }
+    dbRef = ref;
+    note.textContent = "已同步";
+    render();
+    if (Object.keys(done).length) persist();
+  } catch (e) {
+    note.textContent = "本機儲存";
+  }
+})();
+</script>
+
+<div class="wrap">
+  <footer class="end">
+    <span>共同地基 4 階段 · 前端軌 9 階段 · 後端軌 9 階段 · 畢業專案 5 里程碑 · 面試軌 6 階段</span>
+    <span>勾選＝不查資料就能講清楚</span>
+  </footer>
+</div>
+
+</body>
+</html>
