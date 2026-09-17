@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Noto Sans TC', 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9" fill="none" stroke="#64748B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="600" rx="16" fill="#0F172A"/>
+
+  <text x="48" y="48" fill="#F8FAFC" font-size="22" font-weight="600">雙軌全端養成計畫 · 課程地圖</text>
+  <text x="48" y="74" fill="#94A3B8" font-size="13">5 條軌 · 33 個階段 · 237 個能力點 · 約 804 小時</text>
+
+  <!-- Foundation -->
+  <rect x="48" y="110" width="864" height="72" rx="10" fill="#1E293B" stroke="#94A3B8" stroke-width="1.5"/>
+  <rect x="64" y="126" width="90" height="40" rx="6" fill="#475569"/>
+  <text x="109" y="151" text-anchor="middle" fill="#F8FAFC" font-size="13" font-weight="600">共同地基</text>
+  <text x="180" y="142" fill="#E2E8F0" font-size="12">4 階段 · 40h</text>
+  <text x="180" y="162" fill="#94A3B8" font-size="11">命令列 → Git → 一個網址背後發生的事 → 除錯心法</text>
+  <text x="780" y="152" fill="#64748B" font-size="12">所有軌的起點</text>
+
+  <!-- Connector down -->
+  <line x1="480" y1="182" x2="480" y2="210" stroke="#64748B" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- Frontend track -->
+  <rect x="48" y="220" width="280" height="200" rx="12" fill="#0C4A6E" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="72" y="252" fill="#38BDF8" font-size="14" font-weight="600">前端軌</text>
+  <text x="72" y="274" fill="#7DD3FC" font-size="11">9 階段 · 262h</text>
+  <text x="72" y="304" fill="#E0F2FE" font-size="11">HTML 語意 → CSS → JS 核心</text>
+  <text x="72" y="324" fill="#E0F2FE" font-size="11">→ DOM → Node/npm → TypeScript</text>
+  <text x="72" y="344" fill="#E0F2FE" font-size="11">→ React → Next.js</text>
+  <text x="72" y="364" fill="#E0F2FE" font-size="11">→ 工程化與測試</text>
+  <text x="72" y="396" fill="#38BDF8" font-size="11" font-weight="500">畫面會動起來</text>
+
+  <!-- Backend track -->
+  <rect x="348" y="220" width="280" height="200" rx="12" fill="#14532D" stroke="#4ADE80" stroke-width="1.5"/>
+  <text x="372" y="252" fill="#4ADE80" font-size="14" font-weight="600">後端軌</text>
+  <text x="372" y="274" fill="#86EFAC" font-size="11">9 階段 · 246h</text>
+  <text x="372" y="304" fill="#DCFCE7" font-size="11">Python → 演算法 → HTTP/API</text>
+  <text x="372" y="324" fill="#DCFCE7" font-size="11">→ 資料庫 → 認證與安全</text>
+  <text x="372" y="344" fill="#DCFCE7" font-size="11">→ Linux → Docker/CI</text>
+  <text x="372" y="364" fill="#DCFCE7" font-size="11">→ 非同步與佇列 → Node/TS 對照</text>
+  <text x="372" y="396" fill="#4ADE80" font-size="11" font-weight="500">系統站得住</text>
+
+  <!-- Capstone -->
+  <rect x="648" y="220" width="264" height="96" rx="12" fill="#4C1D95" stroke="#A78BFA" stroke-width="1.5"/>
+  <text x="672" y="252" fill="#A78BFA" font-size="14" font-weight="600">畢業專案</text>
+  <text x="672" y="274" fill="#C4B5FD" font-size="11">5 階段 · 100h</text>
+  <text x="672" y="298" fill="#EDE9FE" font-size="11">從規格到上線的完整全端產品</text>
+
+  <!-- Interview track -->
+  <rect x="648" y="332" width="264" height="88" rx="12" fill="#78350F" stroke="#FBBF24" stroke-width="1.5"/>
+  <text x="672" y="360" fill="#FBBF24" font-size="14" font-weight="600">面試軌</text>
+  <text x="672" y="380" fill="#FCD34D" font-size="11">6 階段 · 156h</text>
+  <text x="672" y="402" fill="#FEF3C7" font-size="11">刷題 · 專案敘事 · 系統設計 · 技術深問</text>
+
+  <!-- Connectors to capstone/interview -->
+  <path d="M 328 320 L 340 320" stroke="#64748B" stroke-width="1.5" marker-end="url(#ar)"/>
+  <path d="M 628 320 L 640 320" stroke="#64748B" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="780" y1="316" x2="780" y2="330" stroke="#64748B" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- Design principles -->
+  <text x="48" y="460" fill="#F8FAFC" font-size="15" font-weight="600">三個設計原則</text>
+
+  <rect x="48" y="478" width="280" height="88" rx="10" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="68" y="506" fill="#38BDF8" font-size="12" font-weight="600">以過關推進，不以週數</text>
+  <text x="68" y="528" fill="#94A3B8" font-size="11">每張卡有「前置」與「過關條件」</text>
+  <text x="68" y="546" fill="#64748B" font-size="10">沒有日期，達標才往下走</text>
+
+  <rect x="348" y="478" width="280" height="88" rx="10" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="368" y="506" fill="#4ADE80" font-size="12" font-weight="600">工具只在需要前才教</text>
+  <text x="368" y="528" fill="#94A3B8" font-size="11">HTML/CSS 不用裝任何東西</text>
+  <text x="368" y="546" fill="#64748B" font-size="10">Node/npm 在裝第一個套件前登場</text>
+
+  <rect x="648" y="478" width="264" height="88" rx="10" fill="#1E293B" stroke="#334155" stroke-width="1"/>
+  <text x="668" y="506" fill="#FBBF24" font-size="12" font-weight="600">熟練分三層才算勾完</text>
+  <text x="668" y="528" fill="#94A3B8" font-size="11">查文件寫得出 → 不查寫得出</text>
+  <text x="668" y="546" fill="#64748B" font-size="10">→ 能解釋為什麼、還有哪些選項</text>
+</svg>
